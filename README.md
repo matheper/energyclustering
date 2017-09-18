@@ -15,3 +15,9 @@ Create a virtualenv:
 
 Activate the virtual environment:
 ```source env/bin/activate```
+
+Install the requirements using pip:
+```pip install -r requirements.txt```
+
+Running the tests:
+```python -m unittest discover```
