@@ -54,6 +54,42 @@ class Signal(Base):
         self.wifi_strength = data.get('WiFi Strength')
         self.dummy = data.get('Dummy')
 
+    def to_dict(self):
+        response = {}
+        response = {
+            'id': self.id,
+            'Device': {
+                'ID': self.device.id,
+                'Fw': self.device.fw,
+                'Evt': self.device.evt,
+            },
+            'Alarms': {'CoilRevesed': self.alarms_coil_revesed},
+            'Power': {
+                'Active': self.power_active,
+                'Reactive': self.power_reactive,
+                'Appearent': self.power_appearent,
+            },
+            'Line': {
+                'Current': self.line_current,
+                'Voltage': self.line_voltage,
+                'Phase': self.line_phase,
+            },
+            'Peaks': self.peaks,
+            'FFT Re': self.fft_re,
+            'FFT Img': self.fft_img,
+            'UTC Time': '{}-{}-{} {}:{}:{}'.format(
+                self.utc_time.year,
+                self.utc_time.month,
+                self.utc_time.day,
+                self.utc_time.hour,
+                self.utc_time.minute,
+                self.utc_time.second
+            ),
+            'hz': self.hz,
+            'WiFi Strength': self.wifi_strength,
+            'Dummy': self.dummy,
+        }
+        return response
 
 class Device(Base):
     __tablename__ = 'device'

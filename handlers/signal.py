@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import tornado
 
 from utils import parseSignal
@@ -23,6 +24,8 @@ class SignalHandler(tornado.web.RequestHandler):
             signal = Signal(signal_data)
             self.session.add(signal)
             self.session.commit()
+            self.set_status(201)
+            self.write(json.dumps(signal.to_dict()))
         except:
             msg = "Could not decode: %s" % self.request.body
             raise tornado.web.HTTPError(400, msg)
