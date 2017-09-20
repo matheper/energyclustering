@@ -1,0 +1,8 @@
+postgres:
+  image: postgres
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_DB: ecluster
+  ports:
+    - "3306:5432"
