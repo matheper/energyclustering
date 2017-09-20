@@ -3,27 +3,24 @@ import json
 import tornado
 
 from utils import parseSignal
-
 from models import Signal
 from models import Device
 
 
 class SignalHandler(tornado.web.RequestHandler):
 
-    def initialize(self, session):
-        self.session = session()
-
     def post(self):
         try:
+            session = self.application.session()
             signal_data = parseSignal(self.request.body.decode())
             device = Device(signal_data.get('Device'))
-            if not self.session.query(Device).filter_by(id=device.id).first():
-                self.session.add(device)
-                self.session.commit()
+            if not session.query(Device).filter_by(id=device.id).first():
+                session.add(device)
+                session.commit()
             signal_data['Device ID'] = device.id
             signal = Signal(signal_data)
-            self.session.add(signal)
-            self.session.commit()
+            session.add(signal)
+            session.commit()
             self.set_status(201)
             self.write(json.dumps(signal.to_dict()))
         except:

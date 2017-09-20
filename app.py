@@ -15,30 +15,25 @@ import urls
 import models
 
 
-connection_str = "postgres://{}:{}@{}/{}".format(
-    options.pg_user, options.pg_password,
-    options.pg_host, options.pg_database,
-)
-
-db_engine = create_engine(connection_str)
-if not database_exists(db_engine.url):
-    create_database(db_engine.url)
-db_session = sessionmaker(bind=db_engine)
-
-
 class Application(tornado.web.Application):
 
     def __init__(self, *args, **kwargs):
+        self.engine = kwargs.pop('engine')
         self.session = kwargs.pop('session')
-        self.session.configure(bind=db_engine)
+        self.session.configure(bind=self.engine)
         tornado.web.Application.__init__(self, urls.url_handlers, **settings)
 
     def create_database(self):
-        models.create_all(db_engine)
+        models.create_all(self.engine)
 
 
 def main():
-    app = Application(session=db_session)
+    db_engine = create_engine(options.connection_str)
+    if not database_exists(db_engine.url):
+        create_database(db_engine.url)
+    db_session = sessionmaker(bind=db_engine)
+
+    app = Application(engine=db_engine, session=db_session)
     app.create_database()
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(options.port)
