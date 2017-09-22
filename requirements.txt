@@ -2,3 +2,4 @@ tornado==4.5.2
 SQLAlchemy==1.1.14
 psycopg2==2.7.3.1
 SQLAlchemy-Utils==0.32.16
+redis==2.10.6

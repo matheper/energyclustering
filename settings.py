@@ -7,6 +7,9 @@ define("pg_host", default="127.0.0.1:3306", help="database host")
 define("pg_database", default="ecluster", help="database name")
 define("pg_user", default="postgres", help="database user")
 define("pg_password", default="postgres", help="database password")
+define("redis_host", default="127.0.0.1", help="hedis host")
+define("redis_port", default="6379", help="hedis port")
+define("redis_db", default="0", help="hedis db")
 
 conn_str = "postgres://{}:{}@{}/{}".format(
     options.pg_user, options.pg_password,

@@ -6,3 +6,7 @@ postgres:
     POSTGRES_DB: ecluster
   ports:
     - "3306:5432"
+redis:
+  image: redis
+  ports:
+    - "6379:6379"
