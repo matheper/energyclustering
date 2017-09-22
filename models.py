@@ -88,6 +88,7 @@ class Signal(Base):
             'hz': self.hz,
             'WiFi Strength': self.wifi_strength,
             'Dummy': self.dummy,
+            'Label': self.label,
         }
         return response
 
